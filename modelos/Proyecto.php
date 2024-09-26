@@ -28,7 +28,19 @@ class Proyecto {
         return ejecutarConsulta($sql);
     }
 
-    // Método para eliminar un proyecto
+    // Método para eliminar un proyecto (desactivar)
+    public function desactivar($idproyecto) {
+        $sql = "UPDATE proyectos SET estado='0' WHERE idproyecto='$idproyecto'";
+        return ejecutarConsulta($sql);
+    }
+
+    // Método para activar un proyecto
+    public function activar($idproyecto) {
+        $sql = "UPDATE proyectos SET estado='1' WHERE idproyecto='$idproyecto'";
+        return ejecutarConsulta($sql);
+    }
+
+    // Método para eliminar un proyecto permanentemente
     public function eliminar($idproyecto) {
         $sql = "DELETE FROM proyectos WHERE idproyecto='$idproyecto'";
         return ejecutarConsulta($sql);

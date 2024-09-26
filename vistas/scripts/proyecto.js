@@ -91,9 +91,10 @@ function guardaryeditar(e) {
 function mostrar(idproyecto) {
     $.post("../ajax/proyecto.php?op=mostrar", {idproyecto: idproyecto}, function(data, status) {
         data = JSON.parse(data);
-        mostrarform(true);
+        mostrarform(true);  // Abrimos el formulario de edición
 
-        $("#idproyecto").val(data.id);
+        // Llenar los campos del formulario con los datos del proyecto
+        $("#idproyecto").val(data.idproyecto);  // Asegúrate de llenar el campo oculto con el id
         $("#nombre").val(data.nombre);
         $("#descripcion").val(data.descripcion);
         $("#fecha_inicio").val(data.fecha_inicio);
@@ -102,9 +103,12 @@ function mostrar(idproyecto) {
             $("#archivo_muestra").show();
             $("#archivo_muestra").attr("href", "../files/proyectos/" + data.archivo_pdf);
             $("#archivoactual").val(data.archivo_pdf);
+        } else {
+            $("#archivo_muestra").hide();
         }
     });
 }
+
 
 //Función para eliminar un proyecto
 function eliminar(idproyecto) {

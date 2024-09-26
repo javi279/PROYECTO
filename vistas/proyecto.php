@@ -1,5 +1,5 @@
 <?php 
-//activamos almacenamiento en el buffer
+// Activamos almacenamiento en el buffer
 ob_start();
 session_start();
 if (!isset($_SESSION['nombre'])) {
@@ -50,29 +50,35 @@ if (!isset($_SESSION['nombre'])) {
               </div>
               <div class="panel-body" id="formularioregistros">
                 <form action="" name="formulario" id="formulario" method="POST">
+                  <input type="hidden" name="idproyecto" id="idproyecto"> <!-- Campo oculto para el ID -->
+                  
                   <div class="form-group col-lg-6 col-md-6 col-xs-12">
                     <label for="">Nombre(*):</label>
-                    <input class="form-control" type="hidden" name="idproyecto" id="idproyecto">
                     <input class="form-control" type="text" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del proyecto" required>
                   </div>
+                  
                   <div class="form-group col-lg-6 col-md-6 col-xs-12">
                     <label for="">Descripción(*):</label>
                     <textarea class="form-control" name="descripcion" id="descripcion" maxlength="255" placeholder="Descripción del proyecto" required></textarea>
                   </div>
+                  
                   <div class="form-group col-lg-6 col-md-6 col-xs-12">
                     <label for="">Fecha Inicio(*):</label>
                     <input class="form-control" type="date" name="fecha_inicio" id="fecha_inicio" required>
                   </div>
+                  
                   <div class="form-group col-lg-6 col-md-6 col-xs-12">
                     <label for="">Fecha Fin(*):</label>
                     <input class="form-control" type="date" name="fecha_fin" id="fecha_fin" required>
                   </div>
+                  
                   <div class="form-group col-lg-6 col-md-6 col-xs-12">
                     <label for="">Archivo PDF:</label>
                     <input class="form-control" type="file" name="archivo_pdf" id="archivo_pdf" accept="application/pdf">
                     <input type="hidden" name="archivoactual" id="archivoactual">
                     <a href="#" id="archivo_muestra" target="_blank">Ver archivo</a>
                   </div>
+                  
                   <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <button class="btn btn-primary" type="submit" id="btnGuardar">
                       <i class="fa fa-save"></i> Guardar
