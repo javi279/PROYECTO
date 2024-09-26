@@ -4,22 +4,18 @@ ob_start();
 session_start();
 if (!isset($_SESSION['nombre'])) {
   header("Location: login.html");
-}else{
+} else {
 
 require 'header.php';
-if ($_SESSION['grupos']==1) {
+if ($_SESSION['grupos'] == 1) {
 
-   /* if(isset($_GET['idgrupo'])) {
-      $_SESSION['idgrupo'] = $_GET['idgrupo'];
-    };*/
-        $idgrupo=$_GET['idgrupo'];
+    $idgrupo = $_GET['idgrupo'];
 
-  require_once "../modelos/Grupos.php";
-  $grupos = new Grupos();
-  $rspta = $grupos->mostrar_grupo($idgrupo); 
-  $reg=$rspta->fetch_object();
-  $nombre_grupo=$reg->nombre;
-
+    require_once "../modelos/Grupos.php";
+    $grupos = new Grupos();
+    $rspta = $grupos->mostrar_grupo($idgrupo); 
+    $reg = $rspta->fetch_object();
+    $nombre_grupo = $reg->nombre;
 
  ?>
     <div class="content-wrapper">
@@ -38,9 +34,6 @@ if ($_SESSION['grupos']==1) {
   <a id="btncursos" href="cursos.php?idgrupo=<?php echo $idgrupo; ?>" class="btn btn-primary"><i class='fa fa-th-large'></i> Proyectos</a>
   <a  id="btnlistas" href="listasis.php?idgrupo=<?php echo $idgrupo; ?>" class="btn btn-info"><i class='fa fa-th-list'></i> Listas</a>
 
-
-
-
   <div class="box-tools pull-right">
     <a id="btngrupos" href="escritorio.php"><button class="btn btn-info"><i class='fa fa-th-large'></i> Grupos</button></a>
   </div>
@@ -57,6 +50,13 @@ if ($_SESSION['grupos']==1) {
       <th>Telefono</th>
       <th>Dirección</th>
       <th>Email</th>
+      <!-- Nuevos campos -->
+      <th>DPI</th>
+      <th>Ocupación</th>
+      <th>Edad</th>
+      <th>Hijos</th>
+      <th>Género</th>
+      <th>Función</th>
     </thead>
     <tbody>
     </tbody>
@@ -68,6 +68,13 @@ if ($_SESSION['grupos']==1) {
       <th>Telefono</th>
       <th>Dirección</th>
       <th>Email</th>
+      <!-- Nuevos campos -->
+      <th>DPI</th>
+      <th>Ocupación</th>
+      <th>Edad</th>
+      <th>Hijos</th>
+      <th>Género</th>
+      <th>Función</th>
     </tfoot>   
   </table>
 </div>
@@ -75,35 +82,68 @@ if ($_SESSION['grupos']==1) {
   <form action="" name="formulario" id="formulario" method="POST">
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Nombres(*):</label>
-          <input type="hidden" id="idgrupo" name="idgrupo" value="<?php echo $_GET["idgrupo"];?>">
+      <input type="hidden" id="idgrupo" name="idgrupo" value="<?php echo $_GET["idgrupo"];?>">
       <input class="form-control" type="hidden" name="idalumno" id="idalumno">
       <input class="form-control" type="text" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" required>
     </div>
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Apellidos(*):</label>
-            <input class="form-control" type="text" name="apellidos" id="apellidos" maxlength="100" placeholder="Nombre" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" required>
+      <input class="form-control" type="text" name="apellidos" id="apellidos" maxlength="100" placeholder="Apellidos" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" required>
     </div>
-       <div class="form-group col-lg-6 col-md-6 col-xs-12">
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Dirección(*)</label>
       <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Dirección" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" required>
     </div>
-       <div class="form-group col-lg-6 col-md-6 col-xs-12">
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Email(*)</label>
       <input class="form-control" type="email" name="email" id="email" maxlength="256" placeholder="ejemplo@ejemplo.com">
     </div>
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Teléfono(*)</label>
-      <input class="form-control" type="text" name="telefono" id="telefono" placeholder="Dirección" required>
+      <input class="form-control" type="text" name="telefono" id="telefono" placeholder="Teléfono" required>
     </div>
-        <div class="form-group col-lg-6 col-md-6 col-xs-12">
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Imagen:</label>
       <input class="form-control" type="file" name="imagen" id="imagen">
       <input type="hidden" name="imagenactual" id="imagenactual">
       <img src="" alt="" width="150px" height="120" id="imagenmuestra">
     </div>
-    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button>
+    
+    <!-- Nuevos campos -->
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
+      <label for="">DPI:</label>
+      <input class="form-control" type="text" name="dpi" id="dpi" maxlength="13" placeholder="DPI" required>
+    </div>
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
+      <label for="">Ocupación:</label>
+      <input class="form-control" type="text" name="ocupacion" id="ocupacion" maxlength="100" placeholder="Ocupación" required>
+    </div>
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
+      <label for="">Edad:</label>
+      <input class="form-control" type="number" name="edad" id="edad" placeholder="Edad" required>
+    </div>
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
+      <label for="">Hijos:</label>
+      <input class="form-control" type="number" name="hijos" id="hijos" placeholder="Número de hijos">
+    </div>
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
+      <label for="">Género:</label>
+      <select class="form-control" name="genero" id="genero">
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+      </select>
+    </div>
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
+    <label for="funcion">Función:</label>
+    <select name="funcion" id="funcion" class="form-control" required>
+        <option value="Socio">Socio</option>
+        <option value="Participante">Participante</option>
+        <option value="Guia">Guía</option>
+    </select>
+    </div>
 
+    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
       <button class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
     </div>
   </form>
@@ -118,15 +158,14 @@ if ($_SESSION['grupos']==1) {
     <!-- /.content -->
   </div>
 <?php 
-}else{
- require 'noacceso.php'; 
+} else {
+  require 'noacceso.php'; 
 }
 require 'footer.php'
- ?>
- <script src="scripts/vista_grupo.js"></script>
+?>
+<script src="scripts/vista_grupo.js"></script>
 
- <?php 
+<?php 
 }
-
 ob_end_flush();
-  ?>
+?>
