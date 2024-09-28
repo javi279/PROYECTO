@@ -31,7 +31,7 @@ if ($_SESSION['grupos']==1) {
         <div class="col-md-12">
       <div class="box">
 <div class="box-header with-border">
-  <h1 class="box-title">Registro de conducta <?php echo $nombre_grupo; ?></h1>
+  <h1 class="box-title">Registro de estado<?php echo $nombre_grupo; ?></h1>
   <div class="box-tools pull-right">
     <a href="../vistas/vista_grupo.php?idgrupo=<?php echo $idgrupo; ?>"><button class="btn btn-success"><i class='fa fa-arrow-circle-left'></i> Volver</button></a>
     <a href="../vistas/grupos.php"><button class="btn btn-info"><i class='fa fa-th-large'></i> Grupos</button></a>
@@ -47,7 +47,7 @@ if ($_SESSION['grupos']==1) {
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Telefono</th>
-      <th>Conducta</th>
+      <th>Estado</th>
     </thead>
     <tbody>
     </tbody>
@@ -57,7 +57,7 @@ if ($_SESSION['grupos']==1) {
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Telefono</th>
-      <th>Conducta</th>
+      <th>Estado</th>
     </tfoot>   
   </table>
 </div>

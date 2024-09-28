@@ -84,7 +84,7 @@ if ($_SESSION['grupos']==1) {
         <div class="modal-body">
   <form action="" name="formulario" id="formulario" method="POST">
       <div class="form-group col-lg-12 col-md-12 col-xs-12">
-      <label for="">Beneficios Recibidos(*):</label>
+      <label for="">Descripcion(*):</label>
         <input type="hidden" id="idcalificacion" name="idcalificacion">
         <input type="hidden" id="alumn_id" name="alumn_id">
         <input type="hidden" id="idcurso" name="idcurso">

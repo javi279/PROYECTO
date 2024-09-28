@@ -105,5 +105,15 @@ switch ($_GET["op"]) {
             echo "No se pudo activar el curso";
         }
         break;
+		case 'selectCursos':
+			$team_id=$_REQUEST["idgrupo"];
+	
+			$rspta=$cursos->listar($team_id);
+				echo '<option value="0">seleccione...</option>';
+	
+				while ($reg = $rspta->fetch_object()) {
+					echo '<option value='.$reg->id.'>'.$reg->name.'</option>';
+				}
+				break;
 }
 ?>

@@ -43,7 +43,7 @@ $colores = array("box box-success direct-chat direct-chat-success bg-green", "bo
               <h3 class="box-title"><?php echo $nombre_grupo; ?></h3>
 
               <div class="box-tools pull-right">
-                <span data-toggle="tooltip" title="" class="badge" data-original-title="Cantidad de Estudiantes">
+                <span data-toggle="tooltip" title="" class="badge" data-original-title="Cantidad de Beneficiarios">
                   <?php 
                     $rsptag=$consulta->cantidadg($user_id,$idgrupo);
                     while ($regrupo=$rsptag->fetch_object()) {

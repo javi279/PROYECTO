@@ -219,13 +219,24 @@ if (strlen(session_id())<1)
       </li>
         <li class="treeview">
         <a href="#">
-          <i class="fa fa-tasks"></i> <span>Beneficios Recibidos</span>
+          <i class="fa fa-tasks"></i> <span>Asignacion a Proyectos</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-        <li><a href="calificaciones.php?idgrupo=<?php echo $_GET["idgrupo"]; ?>"><i class="fa fa-circle-o"></i> Beneficios</a></li>
+        <li><a href="calificaciones.php?idgrupo=<?php echo $_GET["idgrupo"]; ?>"><i class="fa fa-circle-o"></i> Asignacion</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-th-large"></i> <span>Actividades</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+        <li><a href="actividad.php?idgrupo=<?php echo $_GET["idgrupo"]; ?>"><i class="fa fa-circle-o"></i> Asignar</a></li>
         </ul>
       </li>
         <li class="treeview">

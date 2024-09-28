@@ -117,7 +117,7 @@ function mostrar(id){
 
 // Función para desactivar un registro
 function desactivar(id){
-	bootbox.confirm("¿Está seguro de desactivar este curso?", function(result){
+	bootbox.confirm("¿Está seguro de desactivar este proyecto?", function(result){
 		if (result) {
 			$.post("../ajax/cursos.php?op=desactivar", {idcurso: id}, function(e){
 				bootbox.alert(e);
@@ -129,7 +129,7 @@ function desactivar(id){
 
 // Función para activar un registro
 function activar(id){
-	bootbox.confirm("¿Está seguro de activar este curso?", function(result){
+	bootbox.confirm("¿Está seguro de activar este proyecto?", function(result){
 		if (result) {
 			$.post("../ajax/cursos.php?op=activar", {idcurso: id}, function(e){
 				bootbox.alert(e);

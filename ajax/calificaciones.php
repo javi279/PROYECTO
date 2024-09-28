@@ -55,7 +55,7 @@ switch ($_GET["op"]) {
             "2"=>$reg->name, 
             "3"=>$reg->lastname,
             "4"=>$reg->phone,
-            "5"=>'<button class="btn btn-info btn-xs" onclick="verificar('.$reg->id.')"><i class="fa fa-check"></i> Calificar</button>'
+            "5"=>'<button class="btn btn-info btn-xs" onclick="verificar('.$reg->id.')"><i class="fa fa-check"></i> Asignar</button>'
               );
 		}
 		$results=array(
