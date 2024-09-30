@@ -23,20 +23,17 @@ if (!isset($_SESSION['nombre'])) {
                                 <input type="hidden" id="idgrupo" name="idgrupo" value="<?php echo $_GET["idgrupo"]; ?>">
                             </div>
                         </div>
-                        <!-- box-header -->
 
-                        <!-- Lista desplegable de proyectos (del select principal) -->
                         <div class="form-inline col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <select name="curso" id="curso" class="form-control selectpicker" data-live-search="true" required>
                                 <option value="">Seleccione un proyecto</option>
                             </select>
                         </div>
 
-                        <!-- Formulario para agregar/editar actividades -->
                         <div class="panel-body">
                             <form action="" name="formulario" id="formulario" method="POST">
                                 <div class="form-group">
-                                    <input type="hidden" id="idactividad" name="idactividad">
+                                    <input type="hidden" id="id_actividad" name="id_actividad">
                                     <input type="hidden" id="idcurso" name="idcurso">
                                     <label for="nombre">Nombre(*):</label>
                                     <input class="form-control" type="text" id="nombre" name="nombre" required>
@@ -52,24 +49,30 @@ if (!isset($_SESSION['nombre'])) {
                             </form>
                         </div>
 
-                        <!-- Tabla de listado de actividades -->
                         <div class="panel-body table-responsive" id="listadoregistros">
-                            <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
-                                <thead>
+                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                            <thead>
+                                <tr>
                                     <th>Opciones</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Proyecto</th>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
                                     <th>Opciones</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Proyecto</th>
-                                </tfoot>
-                            </table>
+                                    <th>Estado</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
                         </div>
                     </div>
                 </div>
