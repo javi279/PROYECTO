@@ -2,13 +2,19 @@ var tabla;
 
 // Función que se ejecuta al inicio
 function init() {
-    var team_id = $("#idgrupo").val();
     listar(); // Llamar a la función para listar actividades al iniciar
 
     // Cargar las opciones de cursos basadas en el grupo seleccionado
+    var team_id = $("#idgrupo").val();
     $.post("../ajax/cursos.php?op=selectCursos", { idgrupo: team_id }, function (r) {
         $("#curso").html(r);
         $('#curso').selectpicker('refresh');
+    });
+
+    // Mostrar el formulario al hacer clic en "Agregar Actividad"
+    $("#btnAgregarActividad").click(function () {
+        limpiar(); // Limpiar el formulario antes de mostrarlo
+        $("#modalActividad").modal("show"); // Mostrar el modal con el formulario
     });
 
     // Asociar la función `guardaryeditar` al evento `submit` del formulario
@@ -52,7 +58,7 @@ function listar() {
     tabla = $('#tbllistado').DataTable({
         "processing": true,
         "serverSide": true,
-        dom: 'Bfrtip', // Definir botones de exportación
+        dom: 'Bfrtip',
         buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdf'],
         "ajax": {
             url: '../ajax/actividad.php?op=listar',
@@ -61,8 +67,6 @@ function listar() {
             data: { idcurso: block_id }, // Enviar el ID del curso (block_id) como parámetro
             dataSrc: function (json) {
                 console.log("Datos recibidos del servidor: ", json);
-
-                // Si hay un problema con el formato de los datos, verificar aquí
                 if (!json.aaData) {
                     console.error("Formato de datos incorrecto o no hay datos: ", json);
                     return [];
@@ -80,27 +84,28 @@ function listar() {
             { "data": 3, "title": "Proyecto" },
             { "data": 4, "title": "Estado" }
         ],
-        "columnDefs": [
-            { 
-                "targets": 0, 
-                "orderable": false,
-                "searchable": false,
-                "render": function (data, type, full, meta) {
-                    return $("<div/>").html(data).text();  // Asegurar que se procese como HTML
-                }
-            }
-        ],
         "bDestroy": true,
         "iDisplayLength": 10,
-        "order": [[1, "asc"]] // Ordenar por nombre de actividad de manera ascendente
+        "order": [[1, "asc"]]
+    });
+
+    // Asignar eventos dinámicos a los botones de edición y eliminación
+    $('#tbllistado tbody').off('click').on('click', 'button.btn-warning', function () {
+        var data = tabla.row($(this).parents('tr')).data();
+        mostrar(data[0]); // Llamar a la función mostrar con el ID de la actividad
+    });
+
+    $('#tbllistado tbody').off('click').on('click', 'button.btn-danger', function () {
+        var data = tabla.row($(this).parents('tr')).data();
+        eliminar(data[0]); // Llamar a la función eliminar con el ID de la actividad
     });
 }
 
 // Función para guardar o editar actividades
 function guardaryeditar(e) {
-    e.preventDefault(); // Evitar el comportamiento predeterminado del formulario
+    e.preventDefault();
     $("#btnGuardar").prop("disabled", false);
-    var formData = new FormData($("#formulario")[0]); // Capturar los datos del formulario
+    var formData = new FormData($("#formulario")[0]);
 
     $.ajax({
         url: "../ajax/actividad.php?op=guardaryeditar",
@@ -110,7 +115,7 @@ function guardaryeditar(e) {
         processData: false,
 
         success: function (datos) {
-            bootbox.alert(datos); // Mostrar mensaje de éxito o error
+            bootbox.alert(datos);
             tabla.ajax.reload(); // Recargar la tabla después de la operación
             limpiar(); // Limpiar el formulario
         },
@@ -122,39 +127,29 @@ function guardaryeditar(e) {
 
 // Función para mostrar los datos de una actividad en el formulario de edición
 function mostrar(idactividad) {
-    $.post("../ajax/actividad.php?op=mostrar", { idactividad: idactividad }, function (data, status) {
+    console.log("ID de actividad a mostrar:", idactividad);
+    $.post("../ajax/actividad.php?op=mostrar", { id_actividad: idactividad }, function (data, status) {
         try {
             data = JSON.parse(data);
             console.log("Datos de la actividad a mostrar: ", data);
 
-            $("#id_actividad").val(data.idactividad);
+            $("#id_actividad").val(data.id_actividad);
             $("#nombre").val(data.nombre);
             $("#descripcion").val(data.descripcion);
             $("#curso").val(data.block_id);
             $('#curso').selectpicker('refresh');
+            $("#modalActividad").modal("show"); // Mostrar el modal con los datos cargados
         } catch (e) {
             console.error("Error al mostrar la actividad: " + e);
         }
     });
 }
 
-// Función para desactivar una actividad
-function desactivar(idactividad) {
-    bootbox.confirm("¿Está seguro de desactivar esta actividad?", function (result) {
+// Función para eliminar una actividad
+function eliminar(idactividad) {
+    bootbox.confirm("¿Está seguro de eliminar esta actividad?", function (result) {
         if (result) {
-            $.post("../ajax/actividad.php?op=desactivar", { idactividad: idactividad }, function (e) {
-                bootbox.alert(e);
-                tabla.ajax.reload();
-            });
-        }
-    });
-}
-
-// Función para activar una actividad
-function activar(idactividad) {
-    bootbox.confirm("¿Está seguro de activar esta actividad?", function (result) {
-        if (result) {
-            $.post("../ajax/actividad.php?op=activar", { idactividad: idactividad }, function (e) {
+            $.post("../ajax/actividad.php?op=desactivar", { id_actividad: idactividad }, function (e) {
                 bootbox.alert(e);
                 tabla.ajax.reload();
             });
