@@ -3,7 +3,7 @@ require "../config/Conexion.php";
 
 class Actividad {
 
-    // Constructor
+    // Constructor vacío
     public function __construct() {
     }
 
@@ -14,7 +14,7 @@ class Actividad {
         return ejecutarConsulta($sql);
     }
 
-    // Método para editar una actividad
+    // Método para editar una actividad existente
     public function editar($id_actividad, $nombre, $descripcion, $block_id) {
         $sql = "UPDATE actividad 
                 SET nombre='$nombre', descripcion='$descripcion', block_id='$block_id' 
@@ -22,18 +22,18 @@ class Actividad {
         return ejecutarConsulta($sql);
     }
 
-    // Método para mostrar los detalles de una actividad
+    // Método para mostrar los detalles de una actividad específica
     public function mostrar($id_actividad) {
         $sql = "SELECT * FROM actividad WHERE id_actividad='$id_actividad'";
         return ejecutarConsultaSimpleFila($sql);
     }
 
+    // Método para listar actividades por `block_id`
     public function listar($block_id) {
-        echo "Block ID recibido en listar: "; 
-        var_dump($block_id);  // Imprimir el valor y el tipo de dato de block_id
+        // Retirar cualquier echo o var_dump para evitar alterar la respuesta JSON
         $sql = "SELECT id_actividad, nombre, descripcion, block_id, is_active
                 FROM actividad
-                WHERE block_id = '$block_id'";  // Verificar que `block_id` se utilice correctamente en la consulta
+                WHERE block_id = '$block_id'";
         return ejecutarConsulta($sql);
     }    
     
@@ -43,7 +43,7 @@ class Actividad {
         return ejecutarConsulta($sql);
     }
 
-    // Método para activar una actividad
+    // Método para activar una actividad desactivada
     public function activar($id_actividad) {
         $sql = "UPDATE actividad SET is_active='1' WHERE id_actividad='$id_actividad'";
         return ejecutarConsulta($sql);

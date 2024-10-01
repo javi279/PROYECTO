@@ -3,25 +3,28 @@ var tabla;
 // Función que se ejecuta al inicio
 function init() {
     var team_id = $("#idgrupo").val();
-    listar(); 
+    listar(); // Llamar a la función para listar actividades al iniciar
 
+    // Cargar las opciones de cursos basadas en el grupo seleccionado
     $.post("../ajax/cursos.php?op=selectCursos", { idgrupo: team_id }, function (r) {
         $("#curso").html(r);
         $('#curso').selectpicker('refresh');
     });
 
+    // Asociar la función `guardaryeditar` al evento `submit` del formulario
     $("#formulario").on("submit", function (e) {
         guardaryeditar(e);
     });
+
+    // Actualizar el ID del curso cuando cambie el select y listar actividades
+    $("#curso").change(function () {
+        var idcurso = $("#curso").val(); 
+        $("#idcurso").val(idcurso); // Actualizar el campo oculto con el ID del curso seleccionado
+        listar(); // Volver a listar las actividades con el nuevo curso seleccionado
+    });
 }
 
-$("#curso").change(function () {
-    var idcurso = $("#curso").val(); 
-    $("#idcurso").val(idcurso);
-    listar();
-});
-
-// Función para limpiar los formularios
+// Función para limpiar los formularios y los campos
 function limpiar() {
     $("#id_actividad").val("");
     $("#nombre").val("");
@@ -30,7 +33,7 @@ function limpiar() {
     $('#modalActividad').modal('hide');
 }
 
-// Función para listar actividades vinculadas al proyecto
+// Función para listar actividades vinculadas al proyecto seleccionado
 function listar() {
     var block_id = $("#curso").val();
     console.log("Block ID enviado: '" + block_id + "'");
@@ -40,18 +43,30 @@ function listar() {
         return;
     }
 
+    // Si la tabla ya está inicializada, destruirla antes de crear una nueva instancia
+    if ($.fn.DataTable.isDataTable('#tbllistado')) {
+        $('#tbllistado').DataTable().destroy();
+    }
+
+    // Inicializar DataTable con opciones y datos del servidor
     tabla = $('#tbllistado').DataTable({
         "processing": true,
         "serverSide": true,
-        dom: 'Bfrtip',
+        dom: 'Bfrtip', // Definir botones de exportación
         buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdf'],
         "ajax": {
             url: '../ajax/actividad.php?op=listar',
             type: "POST",
             dataType: "json",
-            data: { idcurso: block_id },
+            data: { idcurso: block_id }, // Enviar el ID del curso (block_id) como parámetro
             dataSrc: function (json) {
-                console.log("Datos procesados para DataTables: ", json);
+                console.log("Datos recibidos del servidor: ", json);
+
+                // Si hay un problema con el formato de los datos, verificar aquí
+                if (!json.aaData) {
+                    console.error("Formato de datos incorrecto o no hay datos: ", json);
+                    return [];
+                }
                 return json.aaData;
             },
             error: function (e) {
@@ -59,14 +74,7 @@ function listar() {
             }
         },
         "columns": [
-            { 
-                "data": 0, 
-                "title": "Opciones",
-                "render": function (data, type, row) {
-                    // Renderizar la columna de botones como HTML
-                    return $("<div/>").html(data).text();  // Desescapar caracteres HTML y devolver el texto limpio
-                }
-            },
+            { "data": 0, "title": "Opciones" },
             { "data": 1, "title": "Nombre" },
             { "data": 2, "title": "Descripción" },
             { "data": 3, "title": "Proyecto" },
@@ -84,15 +92,15 @@ function listar() {
         ],
         "bDestroy": true,
         "iDisplayLength": 10,
-        "order": [[1, "asc"]]
+        "order": [[1, "asc"]] // Ordenar por nombre de actividad de manera ascendente
     });
 }
 
 // Función para guardar o editar actividades
 function guardaryeditar(e) {
-    e.preventDefault(); 
+    e.preventDefault(); // Evitar el comportamiento predeterminado del formulario
     $("#btnGuardar").prop("disabled", false);
-    var formData = new FormData($("#formulario")[0]);
+    var formData = new FormData($("#formulario")[0]); // Capturar los datos del formulario
 
     $.ajax({
         url: "../ajax/actividad.php?op=guardaryeditar",
@@ -102,9 +110,9 @@ function guardaryeditar(e) {
         processData: false,
 
         success: function (datos) {
-            bootbox.alert(datos);
-            tabla.ajax.reload();
-            limpiar();
+            bootbox.alert(datos); // Mostrar mensaje de éxito o error
+            tabla.ajax.reload(); // Recargar la tabla después de la operación
+            limpiar(); // Limpiar el formulario
         },
         error: function (e) {
             console.error("Error en la operación de guardado/edición: " + e.responseText);
@@ -118,6 +126,7 @@ function mostrar(idactividad) {
         try {
             data = JSON.parse(data);
             console.log("Datos de la actividad a mostrar: ", data);
+
             $("#id_actividad").val(data.idactividad);
             $("#nombre").val(data.nombre);
             $("#descripcion").val(data.descripcion);
@@ -153,4 +162,5 @@ function activar(idactividad) {
     });
 }
 
+// Ejecutar la función de inicio cuando el documento esté listo
 init();

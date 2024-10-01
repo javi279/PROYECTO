@@ -6,30 +6,29 @@ if (strlen(session_id()) < 1)
 
 $actividad = new Actividad();
 
+// Recibir y limpiar los datos de entrada
 $id_actividad = isset($_POST["id_actividad"]) ? limpiarCadena($_POST["id_actividad"]) : "";
 $nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
 $descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
-$block_id = isset($_POST["idcurso"]) ? intval(limpiarCadena($_POST["idcurso"])) : 0;  // Forzar a que se trate como número entero
+$block_id = isset($_POST["idcurso"]) ? intval(limpiarCadena($_POST["idcurso"])) : 0;
 
 switch ($_GET["op"]) {
     case 'guardaryeditar':
         if (empty($id_actividad)) {
-            $rspta = $actividad->insertar($nombre, $descripcion, $block_id); 
+            $rspta = $actividad->insertar($nombre, $descripcion, $block_id);
             echo $rspta ? "Actividad registrada correctamente" : "No se pudo registrar la actividad";
         } else {
             $rspta = $actividad->editar($id_actividad, $nombre, $descripcion, $block_id);
-            echo $rspta ? "Actividad actualizada correctamente" : "No se pudo actualizar la actividad"; 
+            echo $rspta ? "Actividad actualizada correctamente" : "No se pudo actualizar la actividad";
         }
         break;
 
     case 'listar':
-        $block_id = isset($_POST['idcurso']) ? limpiarCadena($_POST['idcurso']) : ""; 
-        
+        $block_id = isset($_POST['idcurso']) ? limpiarCadena($_POST['idcurso']) : "";
         if (!empty($block_id)) {
-            $rspta = $actividad->listar($block_id); 
+            $rspta = $actividad->listar($block_id);
             $data = array();
             while ($reg = $rspta->fetch_object()) {
-                // Generar correctamente los botones sin caracteres escapados
                 $data[] = array(
                     "0" => ($reg->is_active == 1) 
                         ? "<button class='btn btn-warning btn-xs' onclick='mostrar($reg->id_actividad)'><i class='fa fa-pencil'></i></button>" 
@@ -41,7 +40,7 @@ switch ($_GET["op"]) {
                     "4" => ($reg->is_active == 1) ? 'Activa' : 'Inactiva',
                 );
             }
-            
+
             $results = array(
                 "sEcho" => 1,
                 "iTotalRecords" => count($data),
