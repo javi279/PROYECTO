@@ -35,6 +35,7 @@ function limpiar() {
     $("#id_actividad").val("");
     $("#nombre").val("");
     $("#descripcion").val("");
+    $("#fecha_limite").val(""); // Limpiar el campo de fecha límite
     $("#curso").selectpicker('refresh');
     $('#modalActividad').modal('hide');
 }
@@ -81,15 +82,20 @@ function listar() {
             { "data": 0, "title": "Opciones" },
             { "data": 1, "title": "Nombre" },
             { "data": 2, "title": "Descripción" },
-            { "data": 3, "title": "Proyecto" },
+            { "data": 3, "title": "Fecha Límite" },
             { "data": 4, "title": "Estado" }
         ],
         "bDestroy": true,
         "iDisplayLength": 10,
-        "order": [[1, "asc"]]
+        "order": [[1, "asc"]],
+        "initComplete": function () {
+            asignarEventos(); // Asignar eventos cuando la tabla esté completamente cargada
+        }
     });
+}
 
-    // Asignar eventos dinámicos a los botones de edición y eliminación
+// Función para asignar eventos a los botones de activación y desactivación
+function asignarEventos() {
     $('#tbllistado tbody').off('click').on('click', 'button.btn-warning', function () {
         var data = tabla.row($(this).parents('tr')).data();
         mostrar(data[0]); // Llamar a la función mostrar con el ID de la actividad
@@ -97,7 +103,12 @@ function listar() {
 
     $('#tbllistado tbody').off('click').on('click', 'button.btn-danger', function () {
         var data = tabla.row($(this).parents('tr')).data();
-        eliminar(data[0]); // Llamar a la función eliminar con el ID de la actividad
+        desactivar(data[0]); // Llamar a la función desactivar con el ID de la actividad
+    });
+
+    $('#tbllistado tbody').off('click').on('click', 'button.btn-primary', function () {
+        var data = tabla.row($(this).parents('tr')).data();
+        activar(data[0]); // Llamar a la función activar con el ID de la actividad
     });
 }
 
@@ -136,6 +147,7 @@ function mostrar(idactividad) {
             $("#id_actividad").val(data.id_actividad);
             $("#nombre").val(data.nombre);
             $("#descripcion").val(data.descripcion);
+            $("#fecha_limite").val(data.fecha_limite); // Mostrar la fecha límite en el formulario
             $("#curso").val(data.block_id);
             $('#curso').selectpicker('refresh');
             $("#modalActividad").modal("show"); // Mostrar el modal con los datos cargados
@@ -145,11 +157,23 @@ function mostrar(idactividad) {
     });
 }
 
-// Función para eliminar una actividad
-function eliminar(idactividad) {
-    bootbox.confirm("¿Está seguro de eliminar esta actividad?", function (result) {
+// Función para desactivar una actividad
+function desactivar(idactividad) {
+    bootbox.confirm("¿Está seguro de desactivar esta actividad?", function (result) {
         if (result) {
             $.post("../ajax/actividad.php?op=desactivar", { id_actividad: idactividad }, function (e) {
+                bootbox.alert(e);
+                tabla.ajax.reload();
+            });
+        }
+    });
+}
+
+// Función para activar una actividad
+function activar(idactividad) {
+    bootbox.confirm("¿Está seguro de activar esta actividad?", function (result) {
+        if (result) {
+            $.post("../ajax/actividad.php?op=activar", { id_actividad: idactividad }, function (e) {
                 bootbox.alert(e);
                 tabla.ajax.reload();
             });

@@ -46,7 +46,7 @@ if (!isset($_SESSION['nombre'])) {
                                         <th>Opciones</th>
                                         <th>Nombre</th>
                                         <th>Descripción</th>
-                                        <th>Proyecto</th>
+                                        <th>Fecha Límite</th> <!-- Cambié "Proyecto" por "Fecha Límite" -->
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
@@ -57,7 +57,7 @@ if (!isset($_SESSION['nombre'])) {
                                         <th>Opciones</th>
                                         <th>Nombre</th>
                                         <th>Descripción</th>
-                                        <th>Proyecto</th>
+                                        <th>Fecha Límite</th> <!-- Cambié "Proyecto" por "Fecha Límite" -->
                                         <th>Estado</th>
                                     </tr>
                                 </tfoot>
@@ -86,6 +86,11 @@ if (!isset($_SESSION['nombre'])) {
                                             <div class="form-group">
                                                 <label for="descripcion">Descripción(*):</label>
                                                 <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <!-- Nuevo campo de fecha límite -->
+                                                <label for="fecha_limite">Fecha Límite(*):</label>
+                                                <input type="date" class="form-control" id="fecha_limite" name="fecha_limite" required>
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>

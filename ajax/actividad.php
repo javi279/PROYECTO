@@ -11,14 +11,15 @@ $id_actividad = isset($_POST["id_actividad"]) ? limpiarCadena($_POST["id_activid
 $nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
 $descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
 $block_id = isset($_POST["idcurso"]) ? intval(limpiarCadena($_POST["idcurso"])) : 0;
+$fecha_limite = isset($_POST["fecha_limite"]) ? limpiarCadena($_POST["fecha_limite"]) : ""; // Nueva variable
 
 switch ($_GET["op"]) {
     case 'guardaryeditar':
         if (empty($id_actividad)) {
-            $rspta = $actividad->insertar($nombre, $descripcion, $block_id);
+            $rspta = $actividad->insertar($nombre, $descripcion, $block_id, $fecha_limite);
             echo $rspta ? "Actividad registrada correctamente" : "No se pudo registrar la actividad";
         } else {
-            $rspta = $actividad->editar($id_actividad, $nombre, $descripcion, $block_id);
+            $rspta = $actividad->editar($id_actividad, $nombre, $descripcion, $block_id, $fecha_limite);
             echo $rspta ? "Actividad actualizada correctamente" : "No se pudo actualizar la actividad";
         }
         break;
@@ -36,7 +37,7 @@ switch ($_GET["op"]) {
                         : "<button class='btn btn-primary btn-xs' onclick='activar($reg->id_actividad)'><i class='fa fa-check'></i></button>",
                     "1" => $reg->nombre,
                     "2" => $reg->descripcion,
-                    "3" => $reg->block_id,
+                    "3" => $reg->fecha_limite, // Mostrar la nueva fecha límite
                     "4" => ($reg->is_active == 1) ? 'Activa' : 'Inactiva',
                 );
             }
