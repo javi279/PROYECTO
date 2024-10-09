@@ -236,7 +236,7 @@ if (strlen(session_id())<1)
           </span>
         </a>
         <ul class="treeview-menu">
-        <li><a href="actividad.php?idgrupo=<?php echo $_GET["idgrupo"]; ?>"><i class="fa fa-circle-o"></i> Asignar</a></li>
+        <li><a href="actividad.php?idgrupo=<?php echo $_GET["idgrupo"]; ?>"><i class="fa fa-circle-o"></i> Agregar</a></li>
         </ul>
       </li>
         <li class="treeview">

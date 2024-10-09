@@ -97,6 +97,69 @@ switch ($_GET["op"]) {
         <?php
     break;
 
+    case 'lista_actividades':
+        $fecha_inicio = $_REQUEST["fecha_inicio"];
+        $fecha_fin = $_REQUEST["fecha_fin"];
+        $team_id = $_REQUEST["idgrupo"];
+
+        // Verificar rango de fechas
+        $range = 0;
+        if ($fecha_inicio <= $fecha_fin) {
+            $range = ((strtotime($fecha_fin) - strtotime($fecha_inicio)) + (24 * 60 * 60)) / (24 * 60 * 60);
+            if ($range > 31) {
+                echo "<p class='alert alert-warning'>El Rango Máximo es de 31 Días.</p>";
+                exit(0);
+            }
+        } else {
+            echo "<p class='alert alert-danger'>Rango de fechas inválido</p>";
+            exit(0);
+        }
+
+        // Consultar actividades dentro del rango de fechas
+        require_once "../modelos/Actividad.php";
+        $actividad = new Actividad();
+        $rspta = $actividad->listar_actividades_rango($fecha_inicio, $fecha_fin, $team_id);
+
+        if ($rspta->num_rows > 0) {
+            ?>
+
+            <table id="dataa" class="table table-striped table-bordered table-condensed table-hover">
+                <thead>
+                    <th>Nombre de Actividad</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                </thead>
+                <tbody>
+                <?php
+                while ($reg = $rspta->fetch_object()) {
+                    ?>
+                    <tr>
+                        <td><?php echo $reg->nombre; ?></td>
+                        <td><?php echo $reg->descripcion; ?></td>
+                        <td><?php echo $reg->fecha_actividad; ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+
+            <script type="text/javascript">
+                // Inicializar DataTable en el nuevo contenedor de Actividades
+                tabla = $('#dataa').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdf'
+                    ]
+                });
+            </script>
+            <?php
+        } else {
+            echo "<p class='alert alert-danger'>No hay Actividades para el rango de fechas seleccionado</p>";
+        }
+        break;
+
     case 'lista_comportamiento':
         $fecha_inicio=$_REQUEST["fecha_inicioc"];
         $fecha_fin=$_REQUEST["fecha_finc"];

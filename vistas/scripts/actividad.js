@@ -11,6 +11,13 @@ function init() {
         $('#curso').selectpicker('refresh');
     });
 
+    // Cargar los beneficiarios para el formulario del modal basado en el grupo
+    $.post("../ajax/actividad.php?op=selectBeneficiarios", { idgrupo: team_id }, function (r) {
+        console.log("Respuesta de selectBeneficiarios con team_id:", r); // Verificar la respuesta en la consola
+        $("#alumn_id").html(r);
+        $('#alumn_id').selectpicker('refresh');
+    });
+
     // Mostrar el formulario al hacer clic en "Agregar Actividad"
     $("#btnAgregarActividad").click(function () {
         limpiar(); // Limpiar el formulario antes de mostrarlo
@@ -36,6 +43,7 @@ function limpiar() {
     $("#nombre").val("");
     $("#descripcion").val("");
     $("#fecha_limite").val(""); // Limpiar el campo de fecha límite
+    $("#alumn_id").val(""); // Limpiar el campo de beneficiario
     $("#curso").selectpicker('refresh');
     $('#modalActividad').modal('hide');
 }
@@ -117,6 +125,7 @@ function guardaryeditar(e) {
     e.preventDefault();
     $("#btnGuardar").prop("disabled", false);
     var formData = new FormData($("#formulario")[0]);
+    formData.append('alumn_id', $("#alumn_id").val()); // Incluir `alumn_id` en los datos enviados
 
     $.ajax({
         url: "../ajax/actividad.php?op=guardaryeditar",

@@ -51,6 +51,19 @@ function listar_calificacion(){
 		})
 }
 
+function listar_actividades() {
+    var fecha_inicio = $("#fecha_inicioa").val();  // Fecha de inicio de actividades
+    var fecha_fin = $("#fecha_fina").val();        // Fecha de fin de actividades
+    var team_id = $("#idgrupo").val();             // ID del grupo seleccionado
+
+    $.post("../ajax/consultas.php?op=lista_actividades", { fecha_inicio: fecha_inicio, fecha_fin: fecha_fin, idgrupo: team_id },
+        function(data, status) {
+            console.log(data);                     // Mostrar los datos obtenidos en la consola para depuración
+            $("#dataa").html(data);                // Insertar los datos en el contenedor #dataa
+        });
+}
+
+
 init();
 
 

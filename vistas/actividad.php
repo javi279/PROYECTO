@@ -46,7 +46,7 @@ if (!isset($_SESSION['nombre'])) {
                                         <th>Opciones</th>
                                         <th>Nombre</th>
                                         <th>Descripción</th>
-                                        <th>Fecha Límite</th> <!-- Cambié "Proyecto" por "Fecha Límite" -->
+                                        <th>Fecha Límite</th>
                                         <th>Estado</th>
                                     </tr>
                                 </thead>
@@ -57,7 +57,7 @@ if (!isset($_SESSION['nombre'])) {
                                         <th>Opciones</th>
                                         <th>Nombre</th>
                                         <th>Descripción</th>
-                                        <th>Fecha Límite</th> <!-- Cambié "Proyecto" por "Fecha Límite" -->
+                                        <th>Fecha Límite</th>
                                         <th>Estado</th>
                                     </tr>
                                 </tfoot>
@@ -88,7 +88,6 @@ if (!isset($_SESSION['nombre'])) {
                                                 <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <!-- Nuevo campo de fecha límite -->
                                                 <label for="fecha_limite">Fecha Límite(*):</label>
                                                 <input type="date" class="form-control" id="fecha_limite" name="fecha_limite" required>
                                             </div>
@@ -128,6 +127,13 @@ if (!isset($_SESSION['nombre'])) {
             if ($("#curso").val()) {
                 listar(); // Llamar a listar actividades con el proyecto preseleccionado
             }
+        });
+
+        // Cargar los beneficiarios para el formulario del modal basado en el grupo seleccionado
+        $.post("../ajax/actividad.php?op=selectBeneficiarios", { idgrupo: idGrupo }, function (r) {
+            console.log("Beneficiarios cargados:", r);
+            $("#alumn_id").html(r);
+            $('#alumn_id').selectpicker('refresh');
         });
     });
 </script>

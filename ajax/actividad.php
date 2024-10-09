@@ -11,15 +11,17 @@ $id_actividad = isset($_POST["id_actividad"]) ? limpiarCadena($_POST["id_activid
 $nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
 $descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
 $block_id = isset($_POST["idcurso"]) ? intval(limpiarCadena($_POST["idcurso"])) : 0;
-$fecha_limite = isset($_POST["fecha_limite"]) ? limpiarCadena($_POST["fecha_limite"]) : ""; // Nueva variable
+$fecha_limite = isset($_POST["fecha_limite"]) ? limpiarCadena($_POST["fecha_limite"]) : ""; 
+$alumn_id = isset($_POST["alumnid"]) ? limpiarCadena($_POST["alumnid"]) : ""; 
+$team_id = isset($_POST["idgrupo"]) ? limpiarCadena($_POST["idgrupo"]) : ""; // Agregar team_id para filtrar estudiantes
 
 switch ($_GET["op"]) {
     case 'guardaryeditar':
         if (empty($id_actividad)) {
-            $rspta = $actividad->insertar($nombre, $descripcion, $block_id, $fecha_limite);
+            $rspta = $actividad->insertar($nombre, $descripcion, $block_id, $fecha_limite, $alumn_id); // Agregar alumn_id en el método insertar
             echo $rspta ? "Actividad registrada correctamente" : "No se pudo registrar la actividad";
         } else {
-            $rspta = $actividad->editar($id_actividad, $nombre, $descripcion, $block_id, $fecha_limite);
+            $rspta = $actividad->editar($id_actividad, $nombre, $descripcion, $block_id, $fecha_limite, $alumn_id); // Agregar alumn_id en el método editar
             echo $rspta ? "Actividad actualizada correctamente" : "No se pudo actualizar la actividad";
         }
         break;
@@ -37,7 +39,7 @@ switch ($_GET["op"]) {
                         : "<button class='btn btn-primary btn-xs' onclick='activar($reg->id_actividad)'><i class='fa fa-check'></i></button>",
                     "1" => $reg->nombre,
                     "2" => $reg->descripcion,
-                    "3" => $reg->fecha_limite, // Mostrar la nueva fecha límite
+                    "3" => $reg->fecha_limite,
                     "4" => ($reg->is_active == 1) ? 'Activa' : 'Inactiva',
                 );
             }
@@ -72,6 +74,16 @@ switch ($_GET["op"]) {
     case 'activar':
         $rspta = $actividad->activar($id_actividad);
         echo $rspta ? "Actividad activada" : "No se pudo activar la actividad";
+        break;
+
+    // Caso para cargar los beneficiarios (alumnos) por grupo
+    case 'selectBeneficiarios':
+        $rspta = $actividad->listarAlumnosPorGrupo($team_id); // Se cambió el nombre del método
+        $options = '<option value="">Seleccione un alumno</option>';
+        while ($reg = $rspta->fetch_object()) {
+            $options .= '<option value="' . $reg->alumn_id . '">' . $reg->nombre . '</option>';
+        }
+        echo $options;
         break;
 }
 ?>
