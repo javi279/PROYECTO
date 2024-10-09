@@ -42,11 +42,11 @@ switch ($_GET["op"]) {
         if (empty($idcurso)) {
             // Insertar nuevo curso
             $rspta = $cursos->insertar($nombre, $team_id, $descripcion, $fecha_inicio, $fecha_fin, $fecha_alerta, $estado_alerta, $responsable, $contribucion_proyecto, $archivo_pdf);
-            echo $rspta ? "Curso registrado correctamente" : "No se pudo registrar el curso";
+            echo $rspta ? "Proyecto registrado correctamente" : "No se pudo registrar el curso";
         } else {
             // Editar curso existente
             $rspta = $cursos->editar($idcurso, $nombre, $team_id, $descripcion, $fecha_inicio, $fecha_fin, $fecha_alerta, $estado_alerta, $responsable, $contribucion_proyecto, $archivo_pdf);
-            echo $rspta ? "Curso actualizado correctamente" : "No se pudo actualizar el curso";
+            echo $rspta ? "Proyecto actualizado correctamente" : "No se pudo actualizar el curso";
         }
         break;
 
