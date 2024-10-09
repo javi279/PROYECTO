@@ -126,5 +126,13 @@ function guardaryeditar(e){
      limpiar();
 }
 
+function verificar(id) {
+    $.post("../ajax/calificaciones.php?op=verificar", { alumn_id: id, idcurso: $("#idcurso").val() }, function(data, status) {
+        // Mostrar notificación de éxito o error
+        bootbox.alert(data);
+    });
+}
+
+
 
 init();  

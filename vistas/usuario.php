@@ -63,8 +63,8 @@ if ($_SESSION['acceso']==1) {
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Tipo Documento(*):</label>
      <select name="tipo_documento" id="tipo_documento" class="form-control select-picker" required>
-       <option value="DNI">DNI</option>
-       <option value="RUC">RUC</option>
+       <option value="DNI">DPI</option>
+       <option value="RUC">Pasaporte</option>
        <option value="CEDULA">CEDULA</option>
      </select>
     </div>
@@ -86,10 +86,10 @@ if ($_SESSION['acceso']==1) {
     </div>
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Cargo</label>
-      <input class="form-control" type="text" name="cargo" id="cargo" maxlength="20" placeholder="Cargo">
+      <input class="form-control" type="text" name="cargo" id="cargo" maxlength="200" placeholder="Cargo">
     </div>
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
-      <label for="">Login(*):</label>
+      <label for="">Nombre de usuario(*):</label>
       <input class="form-control" type="text" name="login" id="login" maxlength="20" placeholder="nombre de usuario" required>
     </div>
     <div class="form-group col-lg-6 col-md-6 col-xs-12" id="claves">
