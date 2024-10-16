@@ -1,57 +1,61 @@
 <?php 
-//incluir la conexion de base de datos
+// Incluir la conexión de base de datos
 require "../config/Conexion.php";
-class Asistencia{
 
+class Asistencia {
 
-	//implementamos nuestro constructor
-public function __construct(){
+    // Implementamos nuestro constructor
+    public function __construct() {
 
+    }
+
+    // Método para insertar un registro
+    public function insertar($asist, $alumn_id, $block_id) {
+        $sql = "INSERT INTO asistencia (asist, alumn_id, block_id) VALUES ('$asist', '$alumn_id', '$block_id')";
+        return ejecutarConsulta($sql);
+    }
+
+    // Método para editar un registro
+    public function editar($id, $asist, $alumn_id, $block_id) {
+        $sql = "UPDATE asistencia SET asist='$asist', alumn_id='$alumn_id', block_id='$block_id' WHERE id='$id'";
+        return ejecutarConsulta($sql);
+    }
+
+    // Verificar si ya existe una asistencia para este alumno y actividad
+    public function verificar($alumn_id, $block_id) {
+        $sql = "SELECT * FROM asistencia WHERE alumn_id='$alumn_id' AND block_id='$block_id'";
+        return ejecutarConsultaSimpleFila($sql);
+    }
+
+    // Método para desactivar un registro
+    public function desactivar($id) { 
+        $sql = "UPDATE asistencia SET condicion='0' WHERE id='$id'";
+        return ejecutarConsulta($sql);
+    }
+
+    // Método para activar un registro
+    public function activar($id) {
+        $sql = "UPDATE asistencia SET condicion='1' WHERE id='$id'";
+        return ejecutarConsulta($sql);
+    }
+
+    // Método para mostrar un registro específico
+    public function mostrar($id) {
+        $sql = "SELECT * FROM asistencia WHERE id='$id'";
+        return ejecutarConsultaSimpleFila($sql);
+    }
+
+    // Listar todos los registros
+    public function listar() {
+        $sql = "SELECT * FROM asistencia";
+        return ejecutarConsulta($sql);
+    }
+
+    // Listar y mostrar en select
+    public function select() {
+        $sql = "SELECT * FROM asistencia WHERE condicion=1";
+        return ejecutarConsulta($sql);
+    }
 }
 
-//metodo insertar regiustro
-public function insertar($kind_id,$date_at,$alumn_id,$team_id){
-	$sql="INSERT INTO assistance (kind_id,date_at,alumn_id,team_id) VALUES ('$kind_id','$date_at','$alumn_id','$team_id')";
-	return ejecutarConsulta($sql);
-}
-
-public function editar($id,$kind_id,$date_at,$alumn_id,$team_id){
-	$sql="UPDATE assistance SET kind_id='$kind_id',date_at='$date_at',alumn_id='$alumn_id',team_id='$team_id' 
-	WHERE id='$id'";
-	return ejecutarConsulta($sql);
-}
-
-
-public function verificar($date_at,$alumn_id,$team_id){
-	$sql="SELECT * FROM assistance WHERE date_at='$date_at' AND alumn_id='$alumn_id' AND team_id='$team_id'";
-	return ejecutarConsultaSimpleFila($sql);
-}
-
-public function desactivar($id){
-	$sql="UPDATE assistance SET condicion='0' WHERE id='$id'";
-	return ejecutarConsulta($sql);
-}
-public function activar($id){
-	$sql="UPDATE assistance SET condicion='1' WHERE id='$id'";
-	return ejecutarConsulta($sql);
-}
-
-//metodo para mostrar registros
-public function mostrar($id){
-	$sql="SELECT * FROM assistance WHERE id='$id'";
-	return ejecutarConsultaSimpleFila($sql);
-}
-
-//listar registros
-public function listar(){
-	$sql="SELECT * FROM assistance";
-	return ejecutarConsulta($sql);
-}
-//listar y mostrar en selct
-public function select(){
-	$sql="SELECT * FROM assistance WHERE condicion=1";
-	return ejecutarConsulta($sql);
-}
-}
-
- ?>
+?>
