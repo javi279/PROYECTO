@@ -138,6 +138,15 @@ if (!isset($_SESSION['nombre'])) {
     });
 </script>
 
+
+<script type="text/javascript">
+function asignarBeneficiarios(id_actividad) {
+    window.location.href = "actividad_detalle.php?id=" + id_actividad;
+}
+</script>
+
+
+
 <?php 
 }
 ob_end_flush();

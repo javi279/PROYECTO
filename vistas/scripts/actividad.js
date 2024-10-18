@@ -190,5 +190,10 @@ function activar(idactividad) {
     });
 }
 
+function asignarBeneficiarios(idactividad) {
+    // Redireccionar a la página de actividad_detalle.php pasando el id de la actividad
+    window.location.href = `actividad_detalle.php?id=${id_actividad}`;
+}
+
 // Ejecutar la función de inicio cuando el documento esté listo
 init();

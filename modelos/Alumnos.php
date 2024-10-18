@@ -73,5 +73,14 @@ class Alumnos{
 				ORDER BY a.id DESC";
 		return ejecutarConsulta($sql); 
 	}
+
+	public function listarPorActividad($idactividad) {
+		$sql = "SELECT a.id, a.name, a.lastname 
+				FROM alumn a
+				JOIN actividad_detalle ad ON a.id = ad.id_beneficiario 
+				WHERE ad.id_actividad = '$idactividad'";
+		return ejecutarConsulta($sql);
+	}
+	
 }
 ?>

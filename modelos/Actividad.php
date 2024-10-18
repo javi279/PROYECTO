@@ -45,5 +45,16 @@ class Actividad {
         $sql = "UPDATE actividad SET is_active='1' WHERE id_actividad='$id_actividad'";
         return ejecutarConsulta($sql);
     }
+
+    public function listarAlumnosDisponibles($team_id, $id_actividad) {
+        $sql = "SELECT a.id, CONCAT(a.name, ' ', a.lastname) as nombre
+                FROM alumn a
+                INNER JOIN alumn_team at ON a.id = at.alumn_id
+                WHERE at.team_id = '$team_id'
+                AND a.id NOT IN (SELECT ad.id_beneficiario FROM actividad_detalle ad WHERE ad.id_actividad = '$id_actividad')";
+        return ejecutarConsulta($sql); // Esto ya está bien
+    }
+    
+    
 }
 ?>
