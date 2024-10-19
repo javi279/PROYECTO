@@ -81,6 +81,18 @@ class Alumnos{
 				WHERE ad.id_actividad = '$idactividad'";
 		return ejecutarConsulta($sql);
 	}
+
+	 // Listar beneficiarios NO asignados a una actividad
+	 public function listarNoAsignados($idactividad) {
+        $sql = "SELECT a.id, a.name, a.lastname 
+                FROM alumn a 
+                WHERE a.id NOT IN (
+                    SELECT ad.id_beneficiario 
+                    FROM actividad_detalle ad 
+                    WHERE ad.id_actividad = '$idactividad'
+                )";
+        return ejecutarConsulta($sql);
+    }
 	
 }
 ?>
